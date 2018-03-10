@@ -73,6 +73,11 @@ class ViewController: UIViewController, ARSCNViewDelegate
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
+	
+	override var prefersStatusBarHidden: Bool
+	{
+		return false
+	}
 
     // MARK: - ARSCNViewDelegate
     
@@ -152,7 +157,6 @@ class ViewController: UIViewController, ARSCNViewDelegate
 		// Note 2: Not sure if image should be rotated before going to the image request (not sure how to handle this, get the device rotation from the ARSession?)
 		guard let pixbuff = sceneView.session.currentFrame?.capturedImage else
 		{
-			assertionFailure("Could not capture current ARKit frame")
 			return
 		}
 		
