@@ -15,6 +15,7 @@
 		B0D00E372054880B0002D688 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0D00E352054880B0002D688 /* LaunchScreen.storyboard */; };
 		B0D00E422054880B0002D688 /* SpyglassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D00E412054880B0002D688 /* SpyglassTests.swift */; };
 		B0D00E4D2054880C0002D688 /* SpyglassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D00E4C2054880C0002D688 /* SpyglassUITests.swift */; };
+		B0D00E5B20548B6B0002D688 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = B0D00E5A20548B6B0002D688 /* Inceptionv3.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		B0D00E482054880C0002D688 /* SpyglassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpyglassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0D00E4C2054880C0002D688 /* SpyglassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyglassUITests.swift; sourceTree = "<group>"; };
 		B0D00E4E2054880C0002D688 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0D00E5A20548B6B0002D688 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				B0D00E332054880B0002D688 /* Assets.xcassets */,
 				B0D00E352054880B0002D688 /* LaunchScreen.storyboard */,
 				B0D00E382054880B0002D688 /* Info.plist */,
+				B0D00E5A20548B6B0002D688 /* Inceptionv3.mlmodel */,
 			);
 			path = Spyglass;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0D00E2F2054880B0002D688 /* ViewController.swift in Sources */,
+				B0D00E5B20548B6B0002D688 /* Inceptionv3.mlmodel in Sources */,
 				B0D00E2B2054880B0002D688 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
