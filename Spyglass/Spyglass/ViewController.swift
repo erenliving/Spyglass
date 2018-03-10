@@ -14,6 +14,9 @@ import Vision
 class ViewController: UIViewController, ARSCNViewDelegate
 {
     @IBOutlet var sceneView: ARSCNView!
+	@IBOutlet var classificationsTextView: UITextView!
+	
+	let dispatchQueueCoreML = DispatchQueue(label: "com.eren.Spyglass.dispatchQueueCoreML")
 	
 	var visionRequests = [VNRequest]()
     
@@ -41,6 +44,9 @@ class ViewController: UIViewController, ARSCNViewDelegate
 		let classificationRequest = VNCoreMLRequest(model: visionModel, completionHandler: handleClassifications)
 		classificationRequest.imageCropAndScaleOption = .centerCrop
 		visionRequests = [classificationRequest]
+		
+		// Begin main loop
+		loopCoreMLUpdate()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -97,6 +103,19 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
     }
 	
+	// MARK: - Main loop
+	
+	func loopCoreMLUpdate()
+	{
+		// Dispatch CoreML update requests to prevent UI frame rate drops, it will update the UI when it's ready
+		dispatchQueueCoreML.async
+		{
+			self.updateCoreML()
+			
+			self.loopCoreMLUpdate()
+		}
+	}
+	
 	// MARK: - VisionCoreMLRequest handler
 	
 	func handleClassifications(request: VNRequest, error: Error?)
@@ -120,7 +139,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
 		
 		DispatchQueue.main.async
 		{
-			// TODO: self.resultView.text = classifications
+			self.classificationsTextView.text = classifications
 		}
 	}
 	
