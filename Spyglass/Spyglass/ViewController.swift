@@ -113,14 +113,43 @@ class ViewController: UIViewController, ARSCNViewDelegate
 			return
 		}
 		
-		let classifications = observations[0...4] // top 4 results
+		let classifications = observations[0...2] // Top 2 results
 			.flatMap({ $0 as? VNClassificationObservation })
-			.map({ "\($0.identifier) \(($0.confidence * 100.0).rounded())" })
+			.map({ "\($0.identifier) - \(String(format: "%.2f", $0.confidence))" })
 			.joined(separator: "\n")
 		
 		DispatchQueue.main.async
 		{
 			// TODO: self.resultView.text = classifications
+		}
+	}
+	
+	// MARK: - CoreML
+	
+	func updateCoreML()
+	{
+		// Grab the ARSession's current frame and convert to RGB CIImage
+		// Note: not totally sure this image is actually RGB, but seems to work with InceptionV3
+		// Note 2: Not sure if image should be rotated before going to the image request (not sure how to handle this, get the device rotation from the ARSession?)
+		guard let pixbuff = sceneView.session.currentFrame?.capturedImage else
+		{
+			assertionFailure("Could not capture current ARKit frame")
+			return
+		}
+		
+		let ciImage = CIImage(cvPixelBuffer: pixbuff)
+		
+		// Prepare CoreML Vision request
+		let imageRequestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+		
+		// Run the request using the CoreML model (visionRequests) to classify what it sees in the image
+		do
+		{
+			try imageRequestHandler.perform(self.visionRequests)
+		}
+		catch
+		{
+			print("Error starting imageRequestHandler: \(error)")
 		}
 	}
 }
