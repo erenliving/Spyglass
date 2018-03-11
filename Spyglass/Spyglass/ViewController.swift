@@ -19,6 +19,7 @@ class ViewController: UIViewController, ARSCNViewDelegate
 	let dispatchQueueCoreML = DispatchQueue(label: "com.eren.Spyglass.dispatchQueueCoreML")
 	
 	var visionRequests = [VNRequest]()
+	var latestPrediction = "—" // Variable containing the latest CoreML prediction
     
     override func viewDidLoad()
 	{
@@ -35,6 +36,13 @@ class ViewController: UIViewController, ARSCNViewDelegate
         
         // Set the scene to the view
         sceneView.scene = scene
+		
+		// Make the text stand out in the scene better
+		sceneView.autoenablesDefaultLighting = true
+		
+		// Add a tap gesture recognizer to identify the object closest to the centre and give it a label
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+		view.addGestureRecognizer(tapGesture)
 		
 		guard let visionModel = try? VNCoreMLModel(for: Inceptionv3().model) else
 		{
@@ -174,5 +182,31 @@ class ViewController: UIViewController, ARSCNViewDelegate
 		{
 			print("Error starting imageRequestHandler: \(error)")
 		}
+	}
+	
+	// MARK: - Tap Gesture Recognizer
+	
+	@objc func handleTap(_ gestureRecognizer: UITapGestureRecognizer)
+	{
+		let screenCentre = CGPoint(x: sceneView.bounds.midX, y: sceneView.bounds.midY)
+		let arHitTestResults = sceneView.hitTest(screenCentre, types: [.featurePoint]) // Alternatively, we could use '.existingPlaneUsingExtent' for more grounded hit-test-points
+		
+		if let closestTapResult = arHitTestResults.first
+		{
+			let transform = closestTapResult.worldTransform
+			let worldCoordinates = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+			
+			let node = createNewBubbleParentNode(latestPrediction)
+			sceneView.scene.rootNode.addChildNode(node)
+			node.position = worldCoordinates
+		}
+	}
+	
+	// MARK: - Helpers
+	
+	func createNewBubbleParentNode(_ text: String) -> SCNNode
+	{
+		// TODO: implement this
+		return SCNNode()
 	}
 }
